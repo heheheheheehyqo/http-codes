@@ -48,7 +48,7 @@ echo $httpCode->message(); //Not Found
 echo $httpCode->version(); //1
 ```
 
-All `int` codes are also available via `HTTPCode::*` constants
+All `int` codes are also available via `HttpCode::*` constants
 
 ```php
 use Hyqo\Http\HttpCode;
