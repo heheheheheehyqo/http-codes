@@ -1,35 +1,70 @@
 # HTTP status codes
-![Packagist Version](https://img.shields.io/packagist/v/hyqo/http-codes?style=flat-square)
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hyqo/http-codes?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hyqo/http-codes/run-tests?style=flat-square)
+
+| **for PHP <8.1** | [for PHP 8.1](https://github.com/hyqo/http-codes) | 
+|--------------------------|-----------------------------------------------------------|
+
+![Packagist Version](https://img.shields.io/badge/packagist-1.0.0-informational?style=flat-square)
+![Packagist PHP Version Support](https://img.shields.io/badge/php-%3E%3D7.2%20%3C8.1-blueviolet?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hyqo/http-codes/run-tests/php7.2?style=flat-square)
 
 ## Install
 
 ```sh
 composer require hyqo/http-codes
 ```
+
 ## Usage
 
-### PHP >=7.2
+`HTTPCode` is Enum-like implementation via [hyqo/enum](https://github.com/hyqo/enum)
+
 ```php
 use Hyqo\HTTP\HTTPCode;
 
-echo new HTTPCode(200); //HTTP/1.0 200 OK
-echo (new HTTPCode(200)->setVersion(1.1)); //HTTP/1.1 200 OK
-echo (new HTTPCode(200)->setVersion('http/1.1')); //HTTP/1.1 200 OK
+echo HTTPCode::OK()->header(); //HTTP/1.0 200 OK
+echo HTTPCode::from(200)->header(); //HTTP/1.0 200 OK
+echo HTTPCode::from(200)->header(1.1)); //HTTP/1.1 200 OK
+echo HTTPCode::from(200)->header('http/1.1')); //HTTP/1.1 200 OK
+```
+
+`$_SERVER['SERVER_PROTOCOL']` is respectful and is used by default when creating a header string
+
+```php
+use Hyqo\HTTP\HTTPCode;
+
+echo HTTPCode::OK()->header(); //HTTP/1.0 200 OK
+
+$_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1"
+echo HTTPCode::OK()->header()->header(); //HTTP/1.1 200 OK
+```
+
+`message()` and `version()` methods also available
+
+```php
+use Hyqo\HTTP\HTTPCode;
+
+$httpCode = HTTPCode::NOT_FOUND();
+
+echo $httpCode->message(); //Not Found
+echo $httpCode->version(); //1
+```
+
+All `int` codes are also available via `HTTPCode::*` constants
+
+```php
+use Hyqo\HTTP\HTTPCode;
 
 echo HTTPCode::IM_A_TEAPOT; //418
-echo HTTPCode::message(HTTPCode::IM_A_TEAPOT); //I'm a teapot
-echo HTTPCode::message(418); //I'm a teapot
+echo HTTPCode::getMessage(HTTPCode::IM_A_TEAPOT); //I'm a teapot
 
-echo HTTPCode::version(200); //1
-echo HTTPCode::version(203); //1.1
+echo HTTPCode::from(HTTPCode::OK)->version(); //1
 ```
 
 ### Supported codes
+
 See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 
 #### 1xx informational response
+
 | Code | Message                         |
 |------|---------------------------------|
 | 100  | Continue                        |
@@ -38,6 +73,7 @@ See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 | 103  | Early Hints                     |
 
 #### 2xx success
+
 | Code | Message                         |
 |------|---------------------------------|
 | 200  | OK                              |
@@ -52,6 +88,7 @@ See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 | 226  | IM Used                         |
 
 #### 3xx redirection
+
 | Code | Message                         |
 |------|---------------------------------|
 | 300  | Multiple Choices                |
@@ -65,6 +102,7 @@ See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 | 308  | Permanent Redirect              |
 
 #### 4xx client errors
+
 | Code | Message                         |
 |------|---------------------------------|
 | 400  | Bad Request                     |
@@ -98,6 +136,7 @@ See https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 | 451  | Unavailable For Legal Reasons   |
 
 #### 5xx server errors
+
 | Code | Message                         |
 |------|---------------------------------|
 | 500  | Internal Server Error           |

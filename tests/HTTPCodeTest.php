@@ -7,15 +7,18 @@ use PHPUnit\Framework\TestCase;
 
 class HTTPCodeTest extends TestCase
 {
-    public function test_create(): void
+    public function test_header(): void
     {
-        $this->assertEquals('HTTP/1.1 100 Continue', (string)(new HTTPCode(100)));
-        $this->assertEquals('HTTP/1.0 200 OK', (string)(new HTTPCode(200)));
-        $this->assertEquals('HTTP/1.1 200 OK', (string)(new HTTPCode(200))->setVersion(1.1));
-        $this->assertEquals('HTTP/1.1 200 OK', (string)(new HTTPCode(200))->setVersion('http/1.1'));
+        $this->assertEquals('HTTP/1.1 100 Continue', HTTPCode::from(100)->header());
+        $this->assertEquals('HTTP/1.0 200 OK', HTTPCode::from(200)->header());
+
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $this->assertEquals('HTTP/1.1 200 OK', (new HTTPCode(200))->header());
+        $this->assertEquals('HTTP/1.1 200 OK', (new HTTPCode(200))->header(1.1));
+        $this->assertEquals('HTTP/1.1 200 OK', (new HTTPCode(200))->header('http/1.1'));
 
         $this->expectExceptionMessage('Expected format');
-        (new HTTPCode())->setVersion('http/');
+        HTTPCode::OK()->header('http/');
 
         $this->expectExceptionMessage('Unsupported code');
         new HTTPCode(999);
@@ -24,7 +27,7 @@ class HTTPCodeTest extends TestCase
     /** @dataProvider provideCodeWithVersion */
     public function test_version(int $code, float $version): void
     {
-        $this->assertEquals($version, HTTPCode::version($code), sprintf('Incorrect version for %s', $code));
+        $this->assertEquals($version, HTTPCode::getVersion($code), sprintf('Incorrect version for %s', $code));
     }
 
     public function provideCodeWithVersion(): \Generator
@@ -65,7 +68,7 @@ class HTTPCodeTest extends TestCase
 
         foreach ($reflection->getConstants() as $value) {
             if ($code === $value) {
-                $this->assertEquals($message, HTTPCode::message($value), sprintf('Incorrect message for %s', $code));
+                $this->assertEquals($message, HTTPCode::getMessage($value), sprintf('Incorrect message for %s', $code));
                 return;
             }
         }

@@ -2,7 +2,9 @@
 
 namespace Hyqo\HTTP;
 
-class HTTPCode
+use Hyqo\Enum\Enum;
+
+class HTTPCode extends Enum
 {
     public const CONTINUE = 100;
     public const SWITCHING_PROTOCOLS = 101;
@@ -68,41 +70,13 @@ class HTTPCode
     public const NOT_EXTENDED = 510;
     public const NETWORK_AUTHENTICATION_REQUIRED = 511;
 
-    /** @var int */
-    private $code;
-
-    /** @var float */
-    private $version;
-
-    public function __construct(int $code = self::OK)
-    {
-        $reflection = new \ReflectionClass($this);
-
-        foreach ($reflection->getConstants() as $value) {
-            if ($code === $value) {
-                $this->code = $code;
-                return;
-            }
-        }
-
-        throw new \InvalidArgumentException(sprintf('Unsupported code: %d', $code));
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('HTTP/%.1F %d %s', $this->getVersion(), $this->code, $this->getMessage());
-    }
-
-    public function getVersion(): float
-    {
-        return $this->version ?? self::version($this->code);
-    }
-
     /** @param string|float|int $version */
-    public function setVersion($version): self
+    public function header($version = null): string
     {
+        $version = $version ?? $_SERVER['SERVER_PROTOCOL'] ?? $this->version();
+
         if (is_string($version)) {
-            if (preg_match('/^http\/(?P<version>[\d.]+)$/', $version, $matches)) {
+            if (preg_match('/^http\/(?P<version>[\d.]+)$/i', $version, $matches)) {
                 $version = $matches['version'];
             } else {
                 throw new \InvalidArgumentException(
@@ -111,17 +85,20 @@ class HTTPCode
             }
         }
 
-        $this->version = (float)$version;
-
-        return $this;
+        return sprintf('HTTP/%.1F %d %s', $version, $this->value, $this->message());
     }
 
-    public function getMessage(): string
+    public function version(): float
     {
-        return self::message($this->code);
+        return self::getVersion($this->value);
     }
 
-    public static function version(int $code): float
+    public function message(): string
+    {
+        return self::getMessage($this->value);
+    }
+
+    public static function getVersion(int $code): float
     {
         switch (true) {
             case 200 <= $code && $code <= 204 && $code !== 203:
@@ -134,7 +111,7 @@ class HTTPCode
         }
     }
 
-    public static function message(int $code): ?string
+    public static function getMessage(int $code): ?string
     {
         switch ($code) {
             case self::CONTINUE:

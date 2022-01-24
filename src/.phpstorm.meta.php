@@ -70,6 +70,6 @@ namespace PHPSTORM_META {
     );
 
     expectedArguments(\Hyqo\HTTP\HTTPCode::__construct(), 0, argumentsSet('codes'));
-    expectedArguments(\Hyqo\HTTP\HTTPCode::version(), 0, argumentsSet('codes'));
-    expectedArguments(\Hyqo\HTTP\HTTPCode::message(), 0, argumentsSet('codes'));
+    expectedArguments(\Hyqo\HTTP\HTTPCode::getVersion(), 0, argumentsSet('codes'));
+    expectedArguments(\Hyqo\HTTP\HTTPCode::getMessage(), 0, argumentsSet('codes'));
 }
