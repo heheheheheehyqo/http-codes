@@ -33,7 +33,7 @@ echo HTTPCode::OK->header(); //HTTP/1.1 200 OK
 
 `message()` and `version()` methods also available
 ```php
-echo HTTPCode::NOT_FOUND; //Not Found
+echo HTTPCode::NOT_FOUND->message(); //Not Found
 echo HTTPCode::NOT_FOUND->version(); //1
 ```
 
