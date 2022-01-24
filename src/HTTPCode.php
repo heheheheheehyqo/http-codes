@@ -4,6 +4,71 @@ namespace Hyqo\HTTP;
 
 use Hyqo\Enum\Enum;
 
+/**
+ * @method static CONTINUE
+ * @method static SWITCHING_PROTOCOLS
+ * @method static PROCESSING
+ * @method static EARLY_HINTS
+ * @method static OK
+ * @method static CREATED
+ * @method static ACCEPTED
+ * @method static NON_AUTHORITATIVE_INFORMATION
+ * @method static NO_CONTENT
+ * @method static RESET_CONTENT
+ * @method static PARTIAL_CONTENT
+ * @method static MULTI_STATUS
+ * @method static ALREADY_REPORTED
+ * @method static IM_USED
+ * @method static MULTIPLE_CHOICES
+ * @method static MOVED_PERMANENTLY
+ * @method static FOUND
+ * @method static SEE_OTHER
+ * @method static NOT_MODIFIED
+ * @method static USE_PROXY
+ * @method static SWITCH_PROXY
+ * @method static TEMPORARY_REDIRECT
+ * @method static PERMANENT_REDIRECT
+ * @method static BAD_REQUEST
+ * @method static UNAUTHORIZED
+ * @method static PAYMENT_REQUIRED
+ * @method static FORBIDDEN
+ * @method static NOT_FOUND
+ * @method static METHOD_NOT_ALLOWED
+ * @method static NOT_ACCEPTABLE
+ * @method static PROXY_AUTHENTICATION_REQUIRED
+ * @method static REQUEST_TIMEOUT
+ * @method static CONFLICT
+ * @method static GONE
+ * @method static LENGTH_REQUIRED
+ * @method static PRECONDITION_FAILED
+ * @method static PAYLOAD_TOO_LARGE
+ * @method static URI_TOO_LARGE
+ * @method static UNSUPPORTED_MEDIA_TYPE
+ * @method static RANGE_NOT_SATISFIABLE
+ * @method static EXPECTATION_FAILED
+ * @method static IM_A_TEAPOT
+ * @method static MISDIRECTED_REQUEST
+ * @method static UNPROCESSABLE_ENTITY
+ * @method static LOCKED
+ * @method static FAILED_DEPENDENCY
+ * @method static TOO_EARLY
+ * @method static UPGRADE_REQUIRED
+ * @method static PRECONDITION_REQUIRED
+ * @method static TOO_MANY_REQUESTS
+ * @method static REQUEST_HEADER_FIELDS_TOO_LARGE
+ * @method static UNAVAILABLE_FOR_LEGAL_REASONS
+ * @method static INTERNAL_SERVER_ERROR
+ * @method static NOT_IMPLEMENTED
+ * @method static BAD_GATEWAY
+ * @method static SERVICE_UNAVAILABLE
+ * @method static GATEWAY_TIMEOUT
+ * @method static HTTP_VERSION_NOT_SUPPORTED
+ * @method static VARIANT_ALSO_NEGOTIATES
+ * @method static INSUFFICIENT_STORAGE
+ * @method static LOOP_DETECTED
+ * @method static NOT_EXTENDED
+ * @method static NETWORK_AUTHENTICATION_REQUIRED
+ */
 class HTTPCode extends Enum
 {
     public const CONTINUE = 100;
