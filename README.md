@@ -34,7 +34,7 @@ use Hyqo\Http\HttpCode;
 echo HttpCode::OK()->header(); //HTTP/1.0 200 OK
 
 $_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1"
-echo HttpCode::OK()->header()->header(); //HTTP/1.1 200 OK
+echo HttpCode::OK()->header(); //HTTP/1.1 200 OK
 ```
 
 `message()` and `version()` methods also available
