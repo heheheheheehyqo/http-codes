@@ -9,22 +9,22 @@ class HTTPCodeTest extends TestCase
 {
     public function test_create(): void
     {
-        $this->assertEquals('HTTP/1.1 100 Continue', (string)(new HTTPCode(100)));
-        $this->assertEquals('HTTP/1.0 200 OK', (string)(new HTTPCode(200)));
-        $this->assertEquals('HTTP/1.1 200 OK', (string)(new HTTPCode(200))->setVersion(1.1));
-        $this->assertEquals('HTTP/1.1 200 OK', (string)(new HTTPCode(200))->setVersion('http/1.1'));
+        $this->assertEquals('HTTP/1.1 100 Continue', HTTPCode::CONTINUE->header());
+        $this->assertEquals('HTTP/1.0 200 OK', HTTPCode::OK->header());
+
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $this->assertEquals('HTTP/1.1 200 OK', HTTPCode::from(200)->header());
+        $this->assertEquals('HTTP/1.1 200 OK', HTTPCode::from(200)->header(1.1));
+        $this->assertEquals('HTTP/1.1 200 OK', HTTPCode::from(200)->header('http/1.1'));
 
         $this->expectExceptionMessage('Expected format');
-        (new HTTPCode())->setVersion('http/');
-
-        $this->expectExceptionMessage('Unsupported code');
-        new HTTPCode(999);
+        HTTPCode::from(200)->header('http/');
     }
 
     /** @dataProvider provideCodeWithVersion */
     public function test_version(int $code, float $version): void
     {
-        $this->assertEquals($version, HTTPCode::version($code), sprintf('Incorrect version for %s', $code));
+        $this->assertEquals($version, HTTPCode::from($code)->version(), sprintf('Incorrect version for %s', $code));
     }
 
     public function provideCodeWithVersion(): \Generator
@@ -61,16 +61,9 @@ class HTTPCodeTest extends TestCase
     /** @dataProvider provideCodeWithMessage */
     public function test_message(int $code, string $message): void
     {
-        $reflection = new \ReflectionClass(HTTPCode::class);
+        $this->assertEquals($message, HTTPCode::from($code)->message(), sprintf('Incorrect message for %s', $code));
 
-        foreach ($reflection->getConstants() as $value) {
-            if ($code === $value) {
-                $this->assertEquals($message, HTTPCode::message($value), sprintf('Incorrect message for %s', $code));
-                return;
-            }
-        }
-
-        $this->fail(sprintf('Code %s does not exists', $code));
+//        $this->fail(sprintf('Code %s does not exists', $code));
     }
 
     public function provideCodeWithMessage(): \Generator

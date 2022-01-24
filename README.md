@@ -9,21 +9,34 @@
 composer require hyqo/http-codes
 ```
 ## Usage
-
-### PHP >=7.2
 ```php
 use Hyqo\HTTP\HTTPCode;
 
-echo new HTTPCode(200); //HTTP/1.0 200 OK
-echo (new HTTPCode(200)->setVersion(1.1)); //HTTP/1.1 200 OK
-echo (new HTTPCode(200)->setVersion('http/1.1')); //HTTP/1.1 200 OK
+echo HTTPCode::OK->header(); //HTTP/1.0 200 OK
+echo HTTPCode::OK->header(1.1); //HTTP/1.1 200 OK
+echo HTTPCode::OK->header('http/1.1')); //HTTP/1.1 200 OK
+```
 
-echo HTTPCode::IM_A_TEAPOT; //418
-echo HTTPCode::message(HTTPCode::IM_A_TEAPOT); //I'm a teapot
-echo HTTPCode::message(418); //I'm a teapot
+`$_SERVER['SERVER_PROTOCOL']` is respectful and is used by default when creating a header string
+```php
+use Hyqo\HTTP\HTTPCode;
 
-echo HTTPCode::version(200); //1
-echo HTTPCode::version(203); //1.1
+echo HTTPCode::OK->header(); //HTTP/1.0 200 OK
+
+$_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1"
+echo HTTPCode::OK->header(); //HTTP/1.1 200 OK
+```
+
+`message()` and `version()` methods also available
+```php
+echo HTTPCode::NOT_FOUND; //Not Found
+echo HTTPCode::NOT_FOUND->version(); //1
+```
+
+It's a Backed Enum with `int` codes 
+```php
+HTTPCode::IM_A_TEAPOT->value; //(int) 418
+HTTPCode::from(418)->message(); //(string) "I'm a teapot"
 ```
 
 ### Supported codes
