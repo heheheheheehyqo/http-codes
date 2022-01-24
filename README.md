@@ -15,34 +15,34 @@ composer require hyqo/http-codes
 
 ## Usage
 
-`HTTPCode` is Enum-like implementation via [hyqo/enum](https://github.com/hyqo/enum)
+`HttpCode` is Enum-like implementation via [hyqo/enum](https://github.com/hyqo/enum)
 
 ```php
-use Hyqo\HTTP\HTTPCode;
+use Hyqo\Http\HttpCode;
 
-echo HTTPCode::OK()->header(); //HTTP/1.0 200 OK
-echo HTTPCode::from(200)->header(); //HTTP/1.0 200 OK
-echo HTTPCode::from(200)->header(1.1)); //HTTP/1.1 200 OK
-echo HTTPCode::from(200)->header('http/1.1')); //HTTP/1.1 200 OK
+echo HttpCode::OK()->header(); //HTTP/1.0 200 OK
+echo HttpCode::from(200)->header(); //HTTP/1.0 200 OK
+echo HttpCode::from(200)->header(1.1)); //HTTP/1.1 200 OK
+echo HttpCode::from(200)->header('http/1.1')); //HTTP/1.1 200 OK
 ```
 
 `$_SERVER['SERVER_PROTOCOL']` is respectful and is used by default when creating a header string
 
 ```php
-use Hyqo\HTTP\HTTPCode;
+use Hyqo\Http\HttpCode;
 
-echo HTTPCode::OK()->header(); //HTTP/1.0 200 OK
+echo HttpCode::OK()->header(); //HTTP/1.0 200 OK
 
 $_SERVER['SERVER_PROTOCOL'] = "HTTP/1.1"
-echo HTTPCode::OK()->header()->header(); //HTTP/1.1 200 OK
+echo HttpCode::OK()->header()->header(); //HTTP/1.1 200 OK
 ```
 
 `message()` and `version()` methods also available
 
 ```php
-use Hyqo\HTTP\HTTPCode;
+use Hyqo\Http\HttpCode;
 
-$httpCode = HTTPCode::NOT_FOUND();
+$httpCode = HttpCode::NOT_FOUND();
 
 echo $httpCode->message(); //Not Found
 echo $httpCode->version(); //1
@@ -51,12 +51,12 @@ echo $httpCode->version(); //1
 All `int` codes are also available via `HTTPCode::*` constants
 
 ```php
-use Hyqo\HTTP\HTTPCode;
+use Hyqo\Http\HttpCode;
 
-echo HTTPCode::IM_A_TEAPOT; //418
-echo HTTPCode::getMessage(HTTPCode::IM_A_TEAPOT); //I'm a teapot
+echo HttpCode::IM_A_TEAPOT; //418
+echo HttpCode::getMessage(HttpCode::IM_A_TEAPOT); //I'm a teapot
 
-echo HTTPCode::from(HTTPCode::OK)->version(); //1
+echo HttpCode::from(HttpCode::OK)->version(); //1
 ```
 
 ### Supported codes

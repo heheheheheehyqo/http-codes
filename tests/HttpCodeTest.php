@@ -1,33 +1,33 @@
 <?php
 
-namespace Hyqo\HTTP\Test;
+namespace Hyqo\Http\Test;
 
-use Hyqo\HTTP\HTTPCode;
+use Hyqo\Http\HttpCode;
 use PHPUnit\Framework\TestCase;
 
-class HTTPCodeTest extends TestCase
+class HttpCodeTest extends TestCase
 {
     public function test_header(): void
     {
-        $this->assertEquals('HTTP/1.1 100 Continue', HTTPCode::from(100)->header());
-        $this->assertEquals('HTTP/1.0 200 OK', HTTPCode::from(200)->header());
+        $this->assertEquals('HTTP/1.1 100 Continue', HttpCode::from(100)->header());
+        $this->assertEquals('HTTP/1.0 200 OK', HttpCode::from(200)->header());
 
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-        $this->assertEquals('HTTP/1.1 200 OK', (new HTTPCode(200))->header());
-        $this->assertEquals('HTTP/1.1 200 OK', (new HTTPCode(200))->header(1.1));
-        $this->assertEquals('HTTP/1.1 200 OK', (new HTTPCode(200))->header('http/1.1'));
+        $this->assertEquals('HTTP/1.1 200 OK', (new HttpCode(200))->header());
+        $this->assertEquals('HTTP/1.1 200 OK', (new HttpCode(200))->header(1.1));
+        $this->assertEquals('HTTP/1.1 200 OK', (new HttpCode(200))->header('http/1.1'));
 
         $this->expectExceptionMessage('Expected format');
-        HTTPCode::OK()->header('http/');
+        HttpCode::OK()->header('http/');
 
         $this->expectExceptionMessage('Unsupported code');
-        new HTTPCode(999);
+        new HttpCode(999);
     }
 
     /** @dataProvider provideCodeWithVersion */
     public function test_version(int $code, float $version): void
     {
-        $this->assertEquals($version, HTTPCode::getVersion($code), sprintf('Incorrect version for %s', $code));
+        $this->assertEquals($version, HttpCode::getVersion($code), sprintf('Incorrect version for %s', $code));
     }
 
     public function provideCodeWithVersion(): \Generator
@@ -64,7 +64,7 @@ class HTTPCodeTest extends TestCase
     /** @dataProvider provideCodeWithMessage */
     public function test_message(int $code, string $message): void
     {
-        $reflection = new \ReflectionClass(HTTPCode::class);
+        $reflection = new \ReflectionClass(HttpCode::class);
 
         foreach ($reflection->getConstants() as $value) {
             if ($code === $value) {

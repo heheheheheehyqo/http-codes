@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyqo\HTTP;
+namespace Hyqo\Http;
 
 use Hyqo\Enum\Enum;
 
@@ -69,7 +69,7 @@ use Hyqo\Enum\Enum;
  * @method static NOT_EXTENDED
  * @method static NETWORK_AUTHENTICATION_REQUIRED
  */
-class HTTPCode extends Enum
+class HttpCode extends Enum
 {
     public const CONTINUE = 100;
     public const SWITCHING_PROTOCOLS = 101;
