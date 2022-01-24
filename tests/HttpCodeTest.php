@@ -2,29 +2,29 @@
 
 namespace Hyqo\Http\Test;
 
-use Hyqo\Http\HTTPCode;
+use Hyqo\Http\HttpCode;
 use PHPUnit\Framework\TestCase;
 
 class HttpCodeTest extends TestCase
 {
     public function test_create(): void
     {
-        $this->assertEquals('HTTP/1.1 100 Continue', HTTPCode::CONTINUE->header());
-        $this->assertEquals('HTTP/1.0 200 OK', HTTPCode::OK->header());
+        $this->assertEquals('HTTP/1.1 100 Continue', HttpCode::CONTINUE->header());
+        $this->assertEquals('HTTP/1.0 200 OK', HttpCode::OK->header());
 
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-        $this->assertEquals('HTTP/1.1 200 OK', HTTPCode::from(200)->header());
-        $this->assertEquals('HTTP/1.1 200 OK', HTTPCode::from(200)->header(1.1));
-        $this->assertEquals('HTTP/1.1 200 OK', HTTPCode::from(200)->header('http/1.1'));
+        $this->assertEquals('HTTP/1.1 200 OK', HttpCode::from(200)->header());
+        $this->assertEquals('HTTP/1.1 200 OK', HttpCode::from(200)->header(1.1));
+        $this->assertEquals('HTTP/1.1 200 OK', HttpCode::from(200)->header('http/1.1'));
 
         $this->expectExceptionMessage('Expected format');
-        HTTPCode::from(200)->header('http/');
+        HttpCode::from(200)->header('http/');
     }
 
     /** @dataProvider provideCodeWithVersion */
     public function test_version(int $code, float $version): void
     {
-        $this->assertEquals($version, HTTPCode::from($code)->version(), sprintf('Incorrect version for %s', $code));
+        $this->assertEquals($version, HttpCode::from($code)->version(), sprintf('Incorrect version for %s', $code));
     }
 
     public function provideCodeWithVersion(): \Generator
@@ -61,7 +61,7 @@ class HttpCodeTest extends TestCase
     /** @dataProvider provideCodeWithMessage */
     public function test_message(int $code, string $message): void
     {
-        $this->assertEquals($message, HTTPCode::from($code)->message(), sprintf('Incorrect message for %s', $code));
+        $this->assertEquals($message, HttpCode::from($code)->message(), sprintf('Incorrect message for %s', $code));
 
 //        $this->fail(sprintf('Code %s does not exists', $code));
     }
