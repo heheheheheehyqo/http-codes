@@ -1,10 +1,10 @@
 <?php
 
-namespace Hyqo\HTTP;
+namespace Hyqo\Http;
 
 use function Hyqo\String\PascalCase;
 
-enum HTTPCode: int
+enum HttpCode: int
 {
     case CONTINUE = 100;
     case SWITCHING_PROTOCOLS = 101;

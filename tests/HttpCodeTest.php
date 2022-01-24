@@ -1,11 +1,11 @@
 <?php
 
-namespace Hyqo\HTTP\Test;
+namespace Hyqo\Http\Test;
 
-use Hyqo\HTTP\HTTPCode;
+use Hyqo\Http\HTTPCode;
 use PHPUnit\Framework\TestCase;
 
-class HTTPCodeTest extends TestCase
+class HttpCodeTest extends TestCase
 {
     public function test_create(): void
     {
