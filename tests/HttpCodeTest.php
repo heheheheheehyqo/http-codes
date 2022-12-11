@@ -3,11 +3,12 @@
 namespace Hyqo\Http\Test;
 
 use Hyqo\Http\HttpCode;
+use Hyqo\Http\HttpCodeException;
 use PHPUnit\Framework\TestCase;
 
 class HttpCodeTest extends TestCase
 {
-    public function test_create(): void
+    public function test_header(): void
     {
         $this->assertEquals('HTTP/1.1 100 Continue', HttpCode::CONTINUE->header());
         $this->assertEquals('HTTP/1.0 200 OK', HttpCode::OK->header());
@@ -17,6 +18,7 @@ class HttpCodeTest extends TestCase
         $this->assertEquals('HTTP/1.1 200 OK', HttpCode::from(200)->header(1.1));
         $this->assertEquals('HTTP/1.1 200 OK', HttpCode::from(200)->header('http/1.1'));
 
+        $this->expectException(HttpCodeException::class);
         $this->expectExceptionMessage('Expected format');
         HttpCode::from(200)->header('http/');
     }
@@ -62,8 +64,6 @@ class HttpCodeTest extends TestCase
     public function test_message(int $code, string $message): void
     {
         $this->assertEquals($message, HttpCode::from($code)->message(), sprintf('Incorrect message for %s', $code));
-
-//        $this->fail(sprintf('Code %s does not exists', $code));
     }
 
     public function provideCodeWithMessage(): \Generator

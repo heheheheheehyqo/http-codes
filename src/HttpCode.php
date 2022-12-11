@@ -75,13 +75,12 @@ enum HttpCode: int
         $version ??= $_SERVER['SERVER_PROTOCOL'] ?? $this->version();
 
         if (is_string($version)) {
-            if (preg_match('/^http\/(?P<version>[\d.]+)$/i', $version, $matches)) {
-                $version = $matches['version'];
-            } else {
-                throw new \InvalidArgumentException(
-                    sprintf('Expected format "HTTP/x.x" (case insensitive), given: %s', $version)
-                );
-            }
+            $version =
+                preg_match('/^http\/(?P<version>[\d.]+)$/i', $version, $matches) ?
+                    $matches['version'] :
+                    throw new HttpCodeException(
+                        sprintf('Expected format "HTTP/x.x" (case insensitive), given: %s', $version)
+                    );
         }
 
         return sprintf('HTTP/%.1F %d %s', $version, $this->value, $this->message());
