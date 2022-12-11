@@ -1,7 +1,7 @@
 # HTTP status codes
 
-| **for PHP 8.1** | [for PHP <8.1](https://github.com/hyqo/http-codes/tree/php7.2) | 
-|-----------------|----------------------------------------------------------------|
+| **Current** | [Legacy (PHP <8.1)](https://github.com/hyqo/http-codes/tree/php7.2) | 
+|-------------|---------------------------------------------------------------------|
 
 ![Packagist Version](https://img.shields.io/packagist/v/hyqo/http-codes?style=flat-square)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hyqo/http-codes?style=flat-square)
